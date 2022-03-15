@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import style from "./style";
-import STATUSES from "../../constants/index";
+import {STATUSES} from "../../constants/index";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withStyles } from "@mui/styles";
@@ -22,10 +22,9 @@ class Taskboard extends Component {
   }
 
   componentDidMount() {
-    const { taskActions } = this.props;
-    const { fetchListTaskRequest } = taskActions;
-
-    fetchListTaskRequest();
+    // const { taskActions } = this.props;
+    // const {fetchListTask} = taskActions;
+    // fetchListTask();
   }
 
   renderBoard() {
@@ -60,10 +59,26 @@ class Taskboard extends Component {
     });
   };
 
+  loadData = () => {
+    
+    const { taskActions } = this.props;
+    const {fetchListTask} = taskActions;
+    fetchListTask();
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.taskboard}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={this.loadData}
+        >
+         Cập nhập dữ liệu
+        </Button>
+        &nbsp;
         <Button
           variant="contained"
           color="primary"
@@ -73,6 +88,7 @@ class Taskboard extends Component {
           <AddIcon />
           Thêm mới công việc
         </Button>
+
         {this.renderBoard()}
         {this.renderForm()}
       </div>
@@ -84,14 +100,14 @@ Taskboard.propTypes = {
   classes: PropTypes.object,
   taskActions: PropTypes.shape({
     fetchListTaskRequest: PropTypes.func,
+    fetchListTask: PropTypes.func
   }),
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    listTask: state.task.listTask
-
-  }
+    listTask: state.task.listTask,
+  };
 };
 const mapDispatchToProps = (dispatch) => {
   return {

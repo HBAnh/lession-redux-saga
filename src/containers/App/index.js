@@ -4,6 +4,8 @@ import { withStyles } from "@mui/styles";
 import style from "./style";
 import { Provider } from "react-redux";
 import configStore from "../../redux/configStore";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const store = configStore();
 
@@ -11,6 +13,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <ToastContainer/>
         <Taskboard />
       </Provider>
     );

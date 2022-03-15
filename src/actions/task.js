@@ -1,21 +1,6 @@
 import * as taskApis from "./../apis/task";
 import * as taskConstants from "../constants/task";
 
-//b1: fetch request
-export const fetchListTaskRequest = () => {
-  return (dispatch) => {
-    dispatch(fetchListTask());
-    taskApis
-      .getListTask()
-      .then((res) => {
-        const { data } = res;
-        dispatch(fetchListTaskSuccess(data));
-      })
-      .catch((error) => {
-        dispatch(fetchListTaskFailed(error));
-      });
-  };
-};
 //b2: reset: state cua tasks
 export const fetchListTask = () => {
   return {
@@ -40,3 +25,19 @@ export const fetchListTaskFailed = (error) => {
     },
   };
 };
+
+// //b1: fetch request
+// export const fetchListTaskRequest = () => {
+//   return (dispatch) => {
+//     dispatch(fetchListTask());
+//     taskApis
+//       .getListTask()
+//       .then((res) => {
+//         const { data } = res;
+//         dispatch(fetchListTaskSuccess(data));
+//       })
+//       .catch((error) => {
+//         dispatch(fetchListTaskFailed(error));
+//       });
+//   };
+// };
