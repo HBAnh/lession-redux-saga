@@ -1,18 +1,20 @@
 import React, { Component } from "react";
-import Style from "./style";
+import Taskboard from "../Taskboard/index";
 import { withStyles } from "@mui/styles";
-import { ThemeProvider } from "@mui/styles";
-import Taskboard from '../Taskboard/index';
-import outTheme from '../../commons/Theme/index';
+import style from "./style";
+import { Provider } from "react-redux";
+import configStore from "../../redux/configStore";
+
+const store = configStore();
+
 class App extends Component {
   render() {
     return (
-      
-      <ThemeProvider theme={outTheme} >
+      <Provider store={store}>
         <Taskboard />
-      </ThemeProvider>
+      </Provider>
     );
   }
 }
 
-export default withStyles(Style)(App);
+export default withStyles(style)(App);

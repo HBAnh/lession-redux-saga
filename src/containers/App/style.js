@@ -1,4 +1,4 @@
-const Style = () => ({
+const style = () => ({
     box: {
         display: "flex",
         alignItems: "center"
@@ -10,4 +10,4 @@ const Style = () => ({
     }
 });
 
-export default Style;
+export default style;

@@ -11,7 +11,7 @@ class TaskList extends Component {
     return (
         <Grid item md={4} xs={12} key={status.value}>
           <Box>
-            <div className={classes.status}><b>{status.label}</b></div>
+            <div className={classes.status}><h1>{status.label}</h1></div>
           </Box>
           <div>
             {tasks.map((task) => {
