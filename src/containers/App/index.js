@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import configStore from "../../redux/configStore";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GlobalLoading from '../GlobalLoading/index';
 
 const store = configStore();
 
@@ -13,7 +14,8 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ToastContainer/>
+        <ToastContainer />
+        <GlobalLoading />
         <Taskboard />
       </Provider>
     );

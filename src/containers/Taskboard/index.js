@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import style from "./style";
-import {STATUSES} from "../../constants/index";
+import { STATUSES } from "../../constants/index";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withStyles } from "@mui/styles";
@@ -11,7 +11,7 @@ import TaskList from "../../components/TaskList";
 import TaskForm from "../../components/TaskForm";
 import { bindActionCreators } from "redux";
 import * as taskActions from "./../../actions/task";
-
+import SearchBox from "../../components/SearchBox";
 
 class Taskboard extends Component {
   constructor(props) {
@@ -60,10 +60,23 @@ class Taskboard extends Component {
   };
 
   loadData = () => {
-    
     const { taskActions } = this.props;
-    const {fetchListTask} = taskActions;
+    const { fetchListTask } = taskActions;
     fetchListTask();
+  };
+
+  handleFilter = (e) => {
+    
+    const { value } = e.target;
+    const { taskActions } = this.props;
+    const { filterTask } = taskActions;
+    filterTask(value);
+  };
+
+  renderSearchBox() {
+    let xhtml = null;
+    xhtml = <SearchBox handleChange={this.handleFilter} />;
+    return xhtml;
   }
 
   render() {
@@ -76,7 +89,7 @@ class Taskboard extends Component {
           className={classes.button}
           onClick={this.loadData}
         >
-         Cập nhập dữ liệu
+          Cập nhập dữ liệu
         </Button>
         &nbsp;
         <Button
@@ -88,7 +101,7 @@ class Taskboard extends Component {
           <AddIcon />
           Thêm mới công việc
         </Button>
-
+        {this.renderSearchBox()}
         {this.renderBoard()}
         {this.renderForm()}
       </div>
@@ -99,9 +112,10 @@ class Taskboard extends Component {
 Taskboard.propTypes = {
   classes: PropTypes.object,
   taskActions: PropTypes.shape({
-    fetchListTaskRequest: PropTypes.func,
-    fetchListTask: PropTypes.func
+    fetchListTask: PropTypes.func,
+    filterTask: PropTypes.func,
   }),
+  listTask: PropTypes.array,
 };
 
 const mapStateToProps = (state) => {
