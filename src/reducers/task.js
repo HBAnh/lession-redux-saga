@@ -28,10 +28,10 @@ const reducer = (state = initialState, action) => {
       };
     }
     case taskTypes.FILTER_TASK_SUCCESS: {
-      const { data } = action.payload;
+      const { dataFilter } = action.payload;
       return {
         ...state,
-        listTask: data,
+        listTask: dataFilter,
       };
     }
     default:

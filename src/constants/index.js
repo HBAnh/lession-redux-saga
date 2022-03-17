@@ -3,15 +3,15 @@ export const API_ENDPOINT = "http://localhost:3000";
 export const STATUSES = [
   {
     value: 0,
-    label: "SẴN SÀNG",
+    label: "READY",
   },
   {
     value: 1,
-    label: "ĐANG XỬ LÝ",
+    label: "IN PROGRESS",
   },
   {
     value: 2,
-    label: "HOÀN THÀNH",
+    label: "COMPLETED",
   },
 ];
 export const STATUS_CODE = {

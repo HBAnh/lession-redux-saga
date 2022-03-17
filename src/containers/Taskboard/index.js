@@ -5,12 +5,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
+import Add from "@mui/icons-material/Add";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import Grid from "@mui/material/Grid";
 import TaskList from "../../components/TaskList";
-import TaskForm from "../../components/TaskForm";
+import TaskForm from "../TaskForm/index";
 import { bindActionCreators } from "redux";
 import * as taskActions from "./../../actions/task";
+import * as modalActions from "../../actions/modal";
 import SearchBox from "../../components/SearchBox";
 
 class Taskboard extends Component {
@@ -22,9 +24,9 @@ class Taskboard extends Component {
   }
 
   componentDidMount() {
-    // const { taskActions } = this.props;
-    // const {fetchListTask} = taskActions;
-    // fetchListTask();
+    const { taskActions } = this.props;
+    const { fetchListTask } = taskActions;
+    fetchListTask();
   }
 
   renderBoard() {
@@ -41,12 +43,6 @@ class Taskboard extends Component {
     return xhtml;
   }
 
-  renderForm() {
-    const { open } = this.state;
-    let xhtml = null;
-    xhtml = <TaskForm open={open} onClose={this.handleClose}></TaskForm>;
-    return xhtml;
-  }
   handleClose = () => {
     this.setState({
       open: false,
@@ -54,9 +50,11 @@ class Taskboard extends Component {
   };
 
   openForm = () => {
-    this.setState({
-      open: true,
-    });
+    const {  modalActionCreators } = this.props;
+    const { showModal, changeModalTitle, changeModalContent } = modalActionCreators;
+    showModal();
+    changeModalTitle("ADD NEW TASK");
+    changeModalContent(<TaskForm />);
   };
 
   loadData = () => {
@@ -66,7 +64,6 @@ class Taskboard extends Component {
   };
 
   handleFilter = (e) => {
-    
     const { value } = e.target;
     const { taskActions } = this.props;
     const { filterTask } = taskActions;
@@ -86,24 +83,26 @@ class Taskboard extends Component {
         <Button
           variant="contained"
           color="primary"
+          style={{
+            marginRight: 10,
+          }}
           className={classes.button}
           onClick={this.loadData}
         >
-          Cập nhập dữ liệu
+          <AutorenewIcon className={classes.addIcon} />
+          Load Data
         </Button>
-        &nbsp;
         <Button
           variant="contained"
           color="primary"
           className={classes.button}
           onClick={this.openForm}
         >
-          <AddIcon />
-          Thêm mới công việc
+          <Add className={classes.addIcon} />
+          Add new task
         </Button>
         {this.renderSearchBox()}
         {this.renderBoard()}
-        {this.renderForm()}
       </div>
     );
   }
@@ -115,17 +114,26 @@ Taskboard.propTypes = {
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
   }),
+  modalActionCreators: PropTypes.shape({
+    showModal: PropTypes.func,
+    hideModal: PropTypes.func,
+    changeModalContent: PropTypes.func,
+    changeModalTitle: PropTypes.func,
+  }),
   listTask: PropTypes.array,
+  showM: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   return {
     listTask: state.task.listTask,
+    showM: state.modal.showM,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     taskActions: bindActionCreators(taskActions, dispatch),
+    modalActionCreators: bindActionCreators(modalActions, dispatch),
   };
 };
 

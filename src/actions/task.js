@@ -35,11 +35,11 @@ export const filterTask = (keyword) => {
   };
 };
 
-export const filterTaskSuccess = (data) => {
+export const filterTaskSuccess = (dataFilter) => {
   return {
     type: taskConstants.FILTER_TASK_SUCCESS,
     payload: {
-      data,
+      dataFilter,
     },
   };
 };
