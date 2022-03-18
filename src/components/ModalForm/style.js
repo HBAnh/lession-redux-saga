@@ -11,7 +11,7 @@ const style = () => ({
   modalhead: {
     margin: 0,
     padding: 10,
-    backgroundColor: "lightgreen",
+    backgroundColor: "#1976d2",
     textAlign: "left",
   },
   title: {
@@ -19,10 +19,11 @@ const style = () => ({
       fontWeight: 'bold', 
       fontSize: '2rem',
       fontFamily: 'tahoma',
-      color: 'black'
+      color: 'white'
   },
   iconClose:{
-      float: 'right'
+      float: 'right',
+      color: 'white'
   }
 
 });

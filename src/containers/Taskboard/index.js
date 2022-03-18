@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import style from "./style";
-import { STATUSES } from "../../constants/index";
+import { STATUSES } from "../../actions/constants/index";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withStyles } from "@mui/styles";
@@ -16,19 +16,11 @@ import * as modalActions from "../../actions/modal";
 import SearchBox from "../../components/SearchBox";
 
 class Taskboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-  }
-
   componentDidMount() {
-    const { taskActions } = this.props;
-    const { fetchListTask } = taskActions;
+    const { taskActionCreators } = this.props;
+    const { fetchListTask } = taskActionCreators;
     fetchListTask();
   }
-
   renderBoard() {
     const { listTask } = this.props;
     let xhtml = null;
@@ -36,12 +28,38 @@ class Taskboard extends Component {
       <Grid container spacing={2}>
         {STATUSES.map((s) => {
           const taskFilter = listTask.filter((task) => task.status === s.value);
-          return <TaskList key={s.value} tasks={taskFilter} status={s} />;
+          return (
+            <TaskList
+              key={s.value}
+              tasks={taskFilter}
+              status={s}
+              onClickEdit={this.handleEditTask}
+              onClickDelete={this.handleDeleteTask}
+            />
+          );
         })}
       </Grid>
     );
     return xhtml;
   }
+  handleDeleteTask = (id) => {
+    const {taskActionCreators} = this.props;
+    const { deleteTask } = taskActionCreators;
+    // eslint-disable-next-line no-restricted-globals
+    if(confirm('Bạn có chắc muốn xoá?')){
+      deleteTask(id);
+    }
+  }
+  handleEditTask = (task) => {
+    const { taskActionCreators,modalActionCreators } = this.props;
+    const { setTaskEditing } = taskActionCreators;
+    const taskEditing = task;
+    setTaskEditing(taskEditing);
+    const { showModal } =
+      modalActionCreators;
+  
+    showModal("EDIT TASK", <TaskForm />);
+  };
 
   handleClose = () => {
     this.setState({
@@ -50,23 +68,25 @@ class Taskboard extends Component {
   };
 
   openForm = () => {
-    const {  modalActionCreators } = this.props;
-    const { showModal, changeModalTitle, changeModalContent } = modalActionCreators;
-    showModal();
-    changeModalTitle("ADD NEW TASK");
-    changeModalContent(<TaskForm />);
+    const { modalActionCreators, taskActionCreators } = this.props;
+    const { setTaskEditing } = taskActionCreators;
+    setTaskEditing(null);
+    const { showModal } =
+      modalActionCreators;
+    showModal("ADD NEW TASK",<TaskForm />);
+   
   };
 
   loadData = () => {
-    const { taskActions } = this.props;
-    const { fetchListTask } = taskActions;
+    const { taskActionCreators } = this.props;
+    const { fetchListTask } = taskActionCreators;
     fetchListTask();
   };
 
   handleFilter = (e) => {
     const { value } = e.target;
-    const { taskActions } = this.props;
-    const { filterTask } = taskActions;
+    const { taskActionCreators } = this.props;
+    const { filterTask } = taskActionCreators;
     filterTask(value);
   };
 
@@ -110,9 +130,11 @@ class Taskboard extends Component {
 
 Taskboard.propTypes = {
   classes: PropTypes.object,
-  taskActions: PropTypes.shape({
+  taskActionCreators: PropTypes.shape({
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
+    deleteTask: PropTypes.func,
+    setTaskEditing: PropTypes.func,
   }),
   modalActionCreators: PropTypes.shape({
     showModal: PropTypes.func,
@@ -132,7 +154,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    taskActions: bindActionCreators(taskActions, dispatch),
+    taskActionCreators: bindActionCreators(taskActions, dispatch),
     modalActionCreators: bindActionCreators(modalActions, dispatch),
   };
 };

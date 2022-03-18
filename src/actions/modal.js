@@ -1,23 +1,13 @@
 import * as modalTypes from "../constants/modal";
 
-export const showModal = () => ({
+export const showModal = (title,component ) => ({
   type: modalTypes.SHOW_MODAL,
+  payload:{
+    title,
+    component
+  }
 });
 
 export const hideModal = () => ({
   type: modalTypes.HIDE_MODAL,
-});
-
-export const changeModalContent = (component) => ({
-  type: modalTypes.CHANGE_MODAL_CONTENT,
-  payload: {
-    component,
-  },
-});
-
-export const changeModalTitle = (title) => ({
-  type: modalTypes.CHANGE_MODAL_TITLE,
-  payload: {
-    title,
-  },
 });

@@ -5,6 +5,11 @@ const style = () => ({
     },
     content: {
         padding: 20,
+    },
+    
+    selectStatus: {
+        display: 'flex',
+        flexWrap: 'wrap',
     }
 })
 export default style;

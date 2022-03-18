@@ -9,8 +9,11 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case modalTypes.SHOW_MODAL: {
+      const {title, component} = action.payload;
       return {
         ...state,
+        title,
+        component,
         showM: true,
       };
     }
@@ -20,20 +23,6 @@ const reducer = (state = initialState, action) => {
         showM: false,
         title: '',
         component: null,
-      };
-    }
-    case modalTypes.CHANGE_MODAL_TITLE: {
-      const { title } = action.payload;
-      return {
-        ...state,
-        title,
-      };
-    }
-    case modalTypes.CHANGE_MODAL_CONTENT: {
-      const { component } = action.payload;
-      return {
-        ...state,
-        component,
       };
     }
     default:
