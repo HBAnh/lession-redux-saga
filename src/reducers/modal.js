@@ -1,4 +1,4 @@
-import * as modalTypes from "../constants/modal";
+import * as modalTypes from "../actions/constants/modal";
 
 const initialState = {
   showM: false,

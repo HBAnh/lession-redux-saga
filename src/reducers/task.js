@@ -1,4 +1,4 @@
-import * as taskTypes from "../constants/task";
+import * as taskTypes from "../actions/constants/task";
 import { toastError, toastSuccess } from "../helpers/toastHelper";
 
 const initialState = {
