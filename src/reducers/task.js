@@ -1,6 +1,5 @@
 import * as taskTypes from "../actions/constants/task";
 import { toastError, toastSuccess } from "../helpers/toastHelper";
-
 const initialState = {
   listTask: [],
   taskEditing: null,
@@ -48,7 +47,7 @@ const reducer = (state = initialState, action) => {
     case taskTypes.ADD_TASK_SUCCESS: {
       //add task thành công
       const { data } = action.payload;
-      toastSuccess('Thêm mới công việc thành công!')
+      toastSuccess("Thêm mới công việc thành công!");
       return {
         ...state,
         // listTask: state.listTask.concat([data]), // them data ở đằng sau dùng hàm concat để nối 2 mảng
@@ -83,12 +82,12 @@ const reducer = (state = initialState, action) => {
       const index = listTask.findIndex((item) => item.id === data.id);
       if (index !== -1) {
         const newList = [
-          ...listTask.slice(0, index), 
+          ...listTask.slice(0, index),
           data,
           ...listTask.slice(index + 1),
         ];
-      toastSuccess('Sửa công việc thành công');
-      return {
+        toastSuccess("Sửa công việc thành công");
+        return {
           ...state,
           listTask: newList,
         };
@@ -105,7 +104,7 @@ const reducer = (state = initialState, action) => {
         ...state,
       };
     }
-    
+
     case taskTypes.DELETE_TASK: {
       return {
         ...state,
@@ -114,10 +113,10 @@ const reducer = (state = initialState, action) => {
     case taskTypes.DELETE_TASK_SUCCESS: {
       //delete task thanh cong
       const { data: taskID } = action.payload;
-      toastSuccess('Xoá công việc thành công');
+      toastSuccess("Xoá công việc thành công");
       return {
         ...state,
-        listTask: state.listTask.filter(item => item.id !== taskID),
+        listTask: state.listTask.filter((item) => item.id !== taskID),
       };
     }
     case taskTypes.DELETE_TASK_FAILED: {

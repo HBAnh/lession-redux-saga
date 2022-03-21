@@ -20,6 +20,8 @@ const Taskboard = (props) => {
   const dispatch = useDispatch();
 
   const listTask = useSelector((state) => state.task.listTask);
+  const initialValues = useSelector((state) => state.task.taskEditing);
+  const open = useSelector((state) => state.modal.showM);
 
   useEffect(() => {
     dispatch(_action.fetchListTask());
@@ -103,6 +105,8 @@ const Taskboard = (props) => {
       </Button>
       {renderSearchBox()}
       {renderBoard()}
+
+      {open ? <TaskForm initialValues={initialValues} open={open} /> : null}
     </div>
   );
 };
